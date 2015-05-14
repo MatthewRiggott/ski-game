@@ -1,5 +1,8 @@
+require 'pry'
+
 class Boundingbox
-  attr_reader :left, :right, :top, :bottom, :width, :height
+  attr_reader :width, :height
+  attr_accessor :top, :bottom, :left, :right
 
   def initialize(left, top, width, height)
     # x y => top left corner of the box
@@ -11,8 +14,22 @@ class Boundingbox
     @bottom = top + height
   end
 
-  def collide?(box)
-    self.right > box.left && self.bottom < box.top && self.left < box.right && self.top > box.bottom
+  def collide?(x, y)
+    x >= left && x <= right && y <= bottom && y >= top
   end
 
+  def collision?(box)
+    corners = [
+      [box.left, box.top],
+      [box.left, box.bottom],
+      [box.right, box.top],
+      [box.right, box.bottom]
+    ]
+    corners.each do |corner|
+      if collide?(corner[0], corner[1])
+        return true
+      end
+    end
+    false
+  end
 end
