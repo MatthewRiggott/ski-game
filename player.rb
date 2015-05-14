@@ -6,10 +6,12 @@ class Player
     @x = 512
     @y = 150
     @velocity = 2
-    @player_image = Gosu::Image.new(window, "small_rock.png")
+    @window = window
+    @player_image = Gosu::Image.new(@window, "ski-center.png")
     @score = 0
     @move_left = false
     @move_right = false
+    @bounds = Boundingbox.new(@x, @y, 20, 32)
   end
 
   def update
@@ -17,17 +19,24 @@ class Player
     if move_left
       unless @x <= 0
         @x -= 5
+        @player_image = Gosu::Image.new(@window, "ski-left.png")
+        @bounds.left -= 5
+        @bounds.right -= 5
       end
     end
 
     if move_right
       unless @x >= (1024 - @player_image.width)
         @x += 5
+        @player_image = Gosu::Image.new(@window, "ski-right.png")
+        @bounds.left += 5
+        @bounds.right += 5
       end
     end
 
     if move_down
-      @velocity += 1
+      @player_image = Gosu::Image.new(@window, "ski-center.png")
+      @velocity += 1 unless velocity >= 20
     end
 
     if move_up
