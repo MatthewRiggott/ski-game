@@ -1,5 +1,5 @@
 require 'gosu'
-require_relative 'Boundingbox'
+require_relative 'boundingbox'
 
 class Obstacle
   attr_reader :bounds, :image, :x, :y
